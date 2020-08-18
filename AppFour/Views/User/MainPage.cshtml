@@ -1,0 +1,73 @@
+﻿@model IEnumerable<AppUser>
+
+@{
+    ViewData["Title"] = "Main page";
+}
+
+<h1 class="bg-dark text-white">ALL USERS</h1>
+
+<br />
+
+<div class="container">
+    <a asp-action="Logout" asp-controller="User" class="btn btn-dark">LOG OUT</a>
+</div>
+
+@using (Html.BeginForm("TableAction", "User", FormMethod.Post))
+{
+    <br />
+
+    <div class="container">
+        <div class="row align-items-center" align="center">
+            <div class="col">
+                <input type="submit" value="Block selected" class="btn btn-sm btn-danger" name="button" />
+            </div>
+            <div class="col">
+                <input type="submit" value="Unblock selected" class="btn btn-sm btn-success" name="button" />
+            </div>
+            <div class="col">
+                <input type="submit" value="Delete selected" class="btn btn-sm btn-warning" name="button" />
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="container">
+        <table class="table table-sm table-bordered">
+            <tr>
+                <th>
+                    <div class="form-check">
+                        <input type="checkbox" id="checkAll" class="cb-element" />
+                    </div>
+                </th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Sign up date</th>
+                <th>Last Log in date</th>
+            </tr>
+            @foreach (AppUser user in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="form-check">
+                            <input type="checkbox" name="idsArr" value="@user.Id" class="cb-element" />
+                        </div>
+                    </td>
+                    <td>@user.Id</td>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>@user.RegistrationDate</td>
+                    <td>@user.LatestLoginDate</td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+
+    <script src="~/jquery/jquery.js"></script>
+    <script>
+        $("#checkAll").click(function () {
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+    </script>
